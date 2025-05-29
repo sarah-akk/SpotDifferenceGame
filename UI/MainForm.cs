@@ -20,16 +20,18 @@ namespace SpotDifferenceGame.UI
         private GameMode _gameMode;
         private int TimeLimit;
         private int MaxAttempts;
+        private SoundPlayerManager soundManager;
 
         //=============================================================>
 
 
-        public MainForm(GameModeForm.GameMode selectedMode, int timeLimit, int maxAttempts)
+        public MainForm(GameModeForm.GameMode selectedMode, int timeLimit, int maxAttempts , SoundPlayerManager manager)
         {
             InitializeComponent();
             _gameMode = selectedMode;
             this.TimeLimit = timeLimit;
             this.MaxAttempts = maxAttempts;
+            soundManager = manager;
 
             ConfigureGameMode(_gameMode);
             InitializeGame();
@@ -39,6 +41,7 @@ namespace SpotDifferenceGame.UI
             btnRestart.Click += BtnRestart_Click;
             btnLoadImage1.Click += BtnLoadImage1_Click;
             btnLoadImage2.Click += BtnLoadImage2_Click;
+            this.FormClosing += MainGameForm_FormClosing;
 
             UpdateLabels();
 
@@ -54,9 +57,11 @@ namespace SpotDifferenceGame.UI
             {
                 gameManager.ResetGame(maxAttempts: MaxAttempts, timeLimitSeconds: 0, useTimeLimit: false);
             }
+            UpdateLabels();
+
         }
 
-  
+
 
         //=============================================================>
 
@@ -196,6 +201,8 @@ namespace SpotDifferenceGame.UI
                     InitializeGame();
                 }
             }
+            UpdateLabels();
+
         }
         //=============================================================>
 
@@ -212,11 +219,19 @@ namespace SpotDifferenceGame.UI
                     InitializeGame();
                 }
             }
+            UpdateLabels();
+
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
  
         }
+
+        private void MainGameForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            soundManager.Stop();
+        }
+
     }
 }

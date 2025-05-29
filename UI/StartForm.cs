@@ -38,13 +38,15 @@ namespace SpotDifferenceGame.UI
                     var selectedMode = gameModeForm.SelectedMode;
 
                     // 3. نمرر كل القيم لـ MainForm (مثلاً بإضافة الكونستركتور المناسب)
-                    MainForm mainForm = new MainForm(selectedMode, timeLimit, maxAttempts);
+                    MainForm mainForm = new MainForm(selectedMode, timeLimit, maxAttempts, soundManager);
 
                     mainForm.Show();
                     this.Hide();
                 }
             }
         }
+
+        //=============================================================>
 
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
@@ -55,6 +57,10 @@ namespace SpotDifferenceGame.UI
         private void StartForm_Load(object sender, EventArgs e)
         {
 
+        }
+        private void StartForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            soundManager.Stop();
         }
     }
 }
